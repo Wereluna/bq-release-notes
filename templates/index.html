@@ -201,7 +201,36 @@ font-size:14px;
 50%{opacity:0.4;}
 100%{opacity:1;}
 }
+.stats{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-top:25px;
+    flex-wrap:wrap;
+}
 
+.stat-box{
+    background:#151515;
+    border:1px solid #ff4d6d;
+    border-radius:12px;
+    padding:12px;
+    width:120px;
+    color:white;
+    text-align:center;
+    box-shadow:0 0 15px rgba(255,0,0,0.4);
+    transition:0.3s;
+}
+
+.stat-box:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 25px #ff003c;
+}
+
+.stat-box span{
+    display:block;
+    margin-top:8px;
+    font-size:14px;
+}
 </style>
 </head>
 
@@ -210,6 +239,9 @@ font-size:14px;
 <div class="overlay"></div>
 
 <div class="card">
+<div class="top-alert">
+🚨 AI INCIDENT MONITORING NETWORK ACTIVE 🚨
+</div>
 
 <div class="status">
 🔴 SYSTEM STATUS : MONITORING ACTIVE
@@ -230,33 +262,55 @@ Cyber Threat Detection • Incident Intelligence • AI Monitoring
 Analyze Incident
 </button>
 </form>
+<div class="stats">
 
+
+    <div class="stat-box">
+        🚨
+        <span>Threat Scan</span>
+    </div>
+
+    <div class="stat-box">
+        ⚠️
+        <span>Risk Engine</span>
+    </div>
+
+    <div class="stat-box">
+        🛡️
+        <span>AI Defense</span>
+    </div>
+
+    <div class="stat-box">
+        📊
+        <span>Live Monitor</span>
+    </div>
+</div>
 {% if result %}
 
 <div class="report">
 
 <h2>🚨 INCIDENT REPORT</h2>
 
-<div class="stats">
+
 
 <div class="stat">
-<h3>Errors</h3>
+<h3>❌ Errors</h3>
 <p>{{ errors }}</p>
 </div>
 
 <div class="stat">
-<h3>Warnings</h3>
+<h3>⚠️ Warnings</h3>
 <p>{{ warnings }}</p>
 </div>
 
 <div class="stat">
-<h3>Score</h3>
+<h3>⚠️ Warnings</h3>
 <p>{{ score }}</p>
 </div>
 
 </div>
 
-<h3>Threat Level</h3>
+<h3>🚨 Threat Level Assessment</h3>
 
 <div class="meter">
 <div class="fill"></div>
