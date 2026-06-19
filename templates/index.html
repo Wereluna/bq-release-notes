@@ -1,185 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BigQuery Release Insights</title>
-    <!-- Google Fonts: Inter & Outfit -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<title>IncidentGuard AI</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+    background:#0a0a0a;
+    color:white;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-image:linear-gradient(135deg,#120012,#000000,#220022);
+}
+
+.container{
+    width:800px;
+    padding:40px;
+    border-radius:20px;
+    background:rgba(20,20,20,0.9);
+    backdrop-filter:blur(10px);
+    box-shadow:0 0 30px #ff004c;
+}
+
+h1{
+    text-align:center;
+    color:#ff004c;
+    font-size:3rem;
+    text-shadow:0 0 20px #ff004c;
+    margin-bottom:20px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#ccc;
+    margin-bottom:30px;
+}
+
+.upload-box{
+    border:2px dashed #ff004c;
+    padding:30px;
+    border-radius:15px;
+    text-align:center;
+}
+
+input[type=file]{
+    color:white;
+    margin-bottom:20px;
+}
+
+button{
+    padding:12px 30px;
+    border:none;
+    border-radius:10px;
+    background:#ff004c;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    box-shadow:0 0 25px #ff004c;
+    transform:scale(1.05);
+}
+
+.result{
+    margin-top:30px;
+    background:#160016;
+    padding:25px;
+    border-radius:15px;
+    border-left:5px solid #ff004c;
+}
+
+.result h2{
+    color:#ff004c;
+    margin-bottom:10px;
+}
+
+.footer{
+    margin-top:20px;
+    text-align:center;
+    color:#888;
+}
+</style>
+
 </head>
 <body>
-    <div class="bg-gradient-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
-    </div>
 
-    <div class="app-container">
-        <!-- Header Section -->
-        <header class="app-header">
-            <div class="header-content">
-                <div class="logo-area">
-                    <div class="logo-icon">
-                        <i class="fa-solid fa-database-arrow-up"></i>
-                    </div>
-                    <div>
-                        <h1>BigQuery Release Insights</h1>
-                        <p class="subtitle">Track real-time Google Cloud BigQuery updates and share key features</p>
-                    </div>
-                </div>
-                <div class="header-actions">
-                    <button id="btn-refresh" class="btn btn-primary btn-refresh" title="Refresh Notes">
-                        <i class="fa-solid fa-rotate-right spinner-icon"></i>
-                        <span>Refresh</span>
-                    </button>
-                </div>
-            </div>
-        </header>
+<div class="container">
 
-        <!-- Stats Panel -->
-        <section class="stats-panel card">
-            <div class="stat-item">
-                <span class="stat-num" id="stat-total">0</span>
-                <span class="stat-label">Total Updates</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item feature">
-                <span class="stat-num" id="stat-features">0</span>
-                <span class="stat-label">Features</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item issue">
-                <span class="stat-num" id="stat-issues">0</span>
-                <span class="stat-label">Issues & Fixes</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item changed">
-                <span class="stat-num" id="stat-changes">0</span>
-                <span class="stat-label">Changes</span>
-            </div>
-        </section>
+<h1>🦇 IncidentGuard AI</h1>
 
-        <!-- Controls Section -->
-        <section class="controls-panel">
-            <div class="search-wrapper">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" id="search-input" placeholder="Search release notes by keywords (e.g., Gemini, SQL)..." autocomplete="off">
-                <button id="search-clear" class="search-clear-btn" style="display: none;">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            
-            <div class="filter-sort-row">
-                <div class="filter-chips" id="filter-chips">
-                    <button class="chip active" data-filter="all">All</button>
-                    <button class="chip" data-filter="feature">Features</button>
-                    <button class="chip" data-filter="changed">Changes</button>
-                    <button class="chip" data-filter="issue">Issues</button>
-                    <button class="chip" data-filter="fix">Fixes</button>
-                    <button class="chip" data-filter="other">Other</button>
-                </div>
-                
-                <div class="sort-wrapper">
-                    <span class="sort-label">Sort:</span>
-                    <button id="btn-sort" class="btn-sort" data-sort="desc">
-                        <span>Newest First</span>
-                        <i class="fa-solid fa-arrow-down-short-wide"></i>
-                    </button>
-                </div>
-            </div>
-        </section>
+<p class="subtitle">
+Dark Intelligence • Threat Detection • Log Analysis
+</p>
 
-        <!-- Feed Section -->
-        <main class="feed-section">
-            <div id="loading-state" class="loading-state card">
-                <div class="loading-spinner"></div>
-                <h3>Fetching BigQuery Release Notes...</h3>
-                <p>Retrieving the latest details directly from Google Cloud Platform</p>
-            </div>
+<div class="upload-box">
+<form method="POST" enctype="multipart/form-data">
 
-            <div id="error-state" class="error-state card" style="display: none;">
-                <div class="error-icon">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
-                <h3>Failed to load release notes</h3>
-                <p id="error-message">Something went wrong while contacting the server.</p>
-                <button id="btn-retry" class="btn btn-secondary">
-                    <i class="fa-solid fa-arrow-rotate-right"></i> Try Again
-                </button>
-            </div>
+<input type="file" name="logfile" required>
 
-            <div id="empty-state" class="empty-state card" style="display: none;">
-                <div class="empty-icon">
-                    <i class="fa-solid fa-folder-open"></i>
-                </div>
-                <h3>No updates found</h3>
-                <p>Try refining your search term or selecting another filter category</p>
-                <button id="btn-reset-filters" class="btn btn-secondary">Clear All Filters</button>
-            </div>
+<br>
 
-            <div id="notes-container" class="notes-grid">
-                <!-- Dynamically populated by JS -->
-            </div>
-        </main>
+<button type="submit">
+Analyze Threat
+</button>
 
-        <!-- Footer -->
-        <footer class="app-footer">
-            <p>&copy; 2026 BigQuery Release Insights. Powered by Google Cloud Feed & Flask.</p>
-        </footer>
-    </div>
+</form>
+</div>
 
-    <!-- Tweet Modal -->
-    <div id="tweet-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-card">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <i class="fa-brands fa-x-twitter tweet-title-icon"></i>
-                    <h2>Share Update on X</h2>
-                </div>
-                <button id="modal-close" class="modal-close-btn">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            
-            <div class="modal-body">
-                <div class="preview-reference">
-                    <div class="ref-badge" id="modal-ref-type">Feature</div>
-                    <div class="ref-date" id="modal-ref-date">June 15, 2026</div>
-                    <p class="ref-text" id="modal-ref-text">Update snippet preview...</p>
-                </div>
-                
-                <div class="tweet-composer">
-                    <label for="tweet-textarea">Compose your post:</label>
-                    <textarea id="tweet-textarea" rows="6" maxlength="280"></textarea>
-                    
-                    <div class="composer-meta">
-                        <div class="char-counter">
-                            <span id="char-count">0</span> / <span class="char-limit">280</span>
-                        </div>
-                        <div class="tweet-suggestion">
-                            <i class="fa-solid fa-lightbulb"></i>
-                            <span>Pre-populated with relevant hashtags</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="modal-footer">
-                <button id="btn-modal-cancel" class="btn btn-outline">Cancel</button>
-                <button id="btn-modal-tweet" class="btn btn-tweet">
-                    <i class="fa-brands fa-x-twitter"></i> Post to X
-                </button>
-            </div>
-        </div>
-    </div>
+{% if result %}
+<div class="result">
+<h2>Threat Report</h2>
+<p>{{ result }}</p>
+</div>
+{% endif %}
 
-    <!-- Main App JS -->
-    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<div class="footer">
+Powered by IncidentGuard AI
+</div>
+
+</div>
+
 </body>
 </html>
